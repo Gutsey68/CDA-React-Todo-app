@@ -18,9 +18,9 @@ function CheckBox({ isCompleted, ...props }: CheckBoxProps) {
             ) : (
                 <div
                     {...props}
-                    className="rounded-full w-[24px] h-[24px] bg-gray-300 dark:bg-gray-600 hover:bg-gradient-to-br hover:from-fuchsia-500 hover:to-cyan-500 flex items-center justify-center"
+                    className="rounded-full w-[24px] h-[24px] bg-gray-300 dark:bg-gray-600 group-hover:bg-gradient-to-br hover:bg-gradient-to-br group-hover:from-fuchsia-500 hover:from-fuchsia-500 group-hover:to-cyan-500 hover:to-cyan-500 flex items-center justify-center"
                 >
-                    <div className="rounded-full w-[22px] h-[22px] bg-white dark:bg-gray-800 cursor-pointer"></div>
+                    <div className="rounded-full w-[21px] h-[21px] bg-white dark:bg-gray-800 cursor-pointer"></div>
                 </div>
             )}
         </>

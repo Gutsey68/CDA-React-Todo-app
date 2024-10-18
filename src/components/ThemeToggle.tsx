@@ -6,7 +6,7 @@ const ThemeToggle = () => {
     const { isDark, toggleTheme } = useContext(DarkModeContext);
 
     return (
-        <button onClick={toggleTheme} className="p-2 text-white">
+        <button onClick={toggleTheme} className="p-2 text-white hover:text-gray-200">
             {isDark ? <Sun className="w-[25px] h-[25px]" /> : <Moon className="w-[25px] h-[25px]" />}
         </button>
     );

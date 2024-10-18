@@ -4,23 +4,29 @@ import CheckBox from './CheckBox';
 
 function InputTodo() {
     const [isCompleted, setIsCompleted] = useState(false);
-    const { addTodo } = useContext(TodoContext);
+    const [inputValue, setInputValue] = useState('');
+    const { addTodo, updateTodosCompleted } = useContext(TodoContext);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        console.log('submit');
-        const target = e.target as HTMLInputElement;
-        addTodo(target.value);
+        addTodo(inputValue, isCompleted);
+        setInputValue('');
     };
 
     const handleClick = () => {
         setIsCompleted(!isCompleted);
+        updateTodosCompleted();
     };
 
     return (
         <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 py-4 rounded-lg flex items-center gap-4 px-4">
-            <CheckBox isCompleted={isCompleted} onClick={handleClick} />
-            <input className="bg-white dark:bg-gray-800 text-white text outline-none" type="text" />
+            <CheckBox onClick={handleClick} isCompleted={isCompleted} />
+            <input
+                className="bg-white dark:bg-gray-800 dark:text-white text-gray-900 text outline-none"
+                type="text"
+                value={inputValue}
+                onChange={e => setInputValue(e.target.value)}
+            />
         </form>
     );
 }

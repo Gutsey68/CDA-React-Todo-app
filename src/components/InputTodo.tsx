@@ -22,7 +22,7 @@ function InputTodo() {
         <form onSubmit={handleSubmit} className="bg-white dark:bg-gray-800 py-4 rounded-lg flex items-center gap-4 px-4">
             <CheckBox onClick={handleClick} isCompleted={isCompleted} />
             <input
-                className="bg-white dark:bg-gray-800 dark:text-white text-gray-900 text outline-none"
+                className="bg-white dark:bg-gray-800 dark:text-white text-gray-900 text outline-none w-full"
                 type="text"
                 value={inputValue}
                 onChange={e => setInputValue(e.target.value)}

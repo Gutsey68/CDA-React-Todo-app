@@ -8,6 +8,7 @@ interface Todo {
 
 interface TodoContextType {
     todos: Todo[];
+    displayedTodos: Todo[];
     addTodo: (title: string, isCompleted: boolean) => void;
     deleteTodo: (id: number) => void;
     getTodos: () => Todo[];
@@ -15,17 +16,26 @@ interface TodoContextType {
     toggleTodoCompletion: (id: number) => void;
     todosCompleted: number;
     deleteAllCompleted: () => void;
+    showCompletedTodos: () => void;
+    showAllTodos: () => void;
+    reorderTodos: (startIndex: number, endIndex: number) => void;
+    showActiveTodos: () => void;
 }
 
 export const TodoContext = createContext<TodoContextType>({
     todos: [],
+    displayedTodos: [],
     addTodo: () => {},
     deleteTodo: () => {},
     getTodos: () => [],
     updateTodosCompleted: () => {},
     toggleTodoCompletion: () => {},
     todosCompleted: 0,
-    deleteAllCompleted: () => {}
+    deleteAllCompleted: () => {},
+    showCompletedTodos: () => {},
+    showAllTodos: () => {},
+    reorderTodos: () => {},
+    showActiveTodos: () => {}
 });
 
 export const TodoProvider = ({ children }: { children: ReactNode }) => {
@@ -34,6 +44,7 @@ export const TodoProvider = ({ children }: { children: ReactNode }) => {
         { id: 2, title: 'Learn TypeScript', IsCompleted: false },
         { id: 3, title: 'Learn Tailwind CSS', IsCompleted: false }
     ]);
+    const [displayedTodos, setDisplayedTodos] = useState<Todo[]>(todos);
     const [todosCompleted, setTodosCompeted] = useState(0);
 
     useEffect(() => {
@@ -41,25 +52,30 @@ export const TodoProvider = ({ children }: { children: ReactNode }) => {
     }, [todos]);
 
     const updateTodosCompleted = () => {
-        const numberCompleted = todos.filter(todo => todo.IsCompleted === false).length;
+        const numberCompleted = todos.filter(todo => todo.IsCompleted).length;
         setTodosCompeted(numberCompleted);
     };
 
-    const addTodo = (title: string, IsCompleted: boolean) => {
+    const addTodo = (title: string, isCompleted: boolean) => {
         const newTodo = {
-            id: todos.length + 1,
+            id: Math.floor(Math.random() * 1000),
             title,
-            IsCompleted
+            IsCompleted: isCompleted
         };
         setTodos([...todos, newTodo]);
+        setDisplayedTodos([...todos, newTodo]);
     };
 
     const deleteTodo = (id: number) => {
-        setTodos(todos.filter(todo => todo.id !== id));
+        const updatedTodos = todos.filter(todo => todo.id !== id);
+        setTodos(updatedTodos);
+        setDisplayedTodos(updatedTodos);
     };
 
     const toggleTodoCompletion = (id: number) => {
-        setTodos(todos.map(todo => (todo.id === id ? { ...todo, IsCompleted: !todo.IsCompleted } : todo)));
+        const updatedTodos = todos.map(todo => (todo.id === id ? { ...todo, IsCompleted: !todo.IsCompleted } : todo));
+        setTodos(updatedTodos);
+        setDisplayedTodos(updatedTodos);
     };
 
     const getTodos = () => {
@@ -67,20 +83,50 @@ export const TodoProvider = ({ children }: { children: ReactNode }) => {
     };
 
     const deleteAllCompleted = () => {
-        setTodos(todos.filter(todo => todo.IsCompleted === false));
+        const updatedTodos = todos.filter(todo => !todo.IsCompleted);
+        setTodos(updatedTodos);
+        setDisplayedTodos(updatedTodos);
+    };
+
+    const showCompletedTodos = () => {
+        const completedTodos = todos.filter(todo => todo.IsCompleted);
+        setDisplayedTodos(completedTodos);
+    };
+
+    const showActiveTodos = () => {
+        const notCompletedTodos = todos.filter(todo => !todo.IsCompleted);
+        setDisplayedTodos(notCompletedTodos);
+    };
+
+    const showAllTodos = () => {
+        setDisplayedTodos(todos);
+    };
+
+    const reorderTodos = (startIndex: number, endIndex: number) => {
+        const result = Array.from(todos);
+        const [removed] = result.splice(startIndex, 1);
+        result.splice(endIndex, 0, removed);
+
+        setTodos(result);
+        setDisplayedTodos(result);
     };
 
     return (
         <TodoContext.Provider
             value={{
                 todos,
+                displayedTodos,
                 addTodo,
                 deleteTodo,
                 getTodos,
                 updateTodosCompleted,
                 toggleTodoCompletion,
                 todosCompleted,
-                deleteAllCompleted
+                deleteAllCompleted,
+                showCompletedTodos,
+                showAllTodos,
+                reorderTodos,
+                showActiveTodos
             }}
         >
             {children}

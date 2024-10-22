@@ -4,7 +4,7 @@ import TodoList from './TodoList';
 
 function MainPage() {
     return (
-        <main className="w-[94%] h-[94%] md:w-[540px] md:h-[800px] mx-auto flex flex-col gap-4 max-md-mt-20">
+        <main className="w-[94%] h-[94%] md:w-[540px] md:h-[800px] mx-auto flex flex-col gap-4 max-md:mt-6 ">
             <Header />
             <InputTodo />
             <TodoList />

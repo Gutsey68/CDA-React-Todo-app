@@ -2,6 +2,11 @@
 
 This is a simple To-Do application built with React, Tailwind CSS, and TypeScript. The application allows you to add tasks, filter them based on their completion status, reorder tasks via drag and drop, and switch between light and dark themes.
 
+## Demo
+
+- [View Live Demo](https://cda-react-todo-app.vercel.app/)
+
+
 ## Features
 
 -   Add new tasks
